@@ -7,9 +7,11 @@ leftwristY = "";
 rightwristX  = "";
 rightwristY = "";
 
-songplay = "";
+songstatus = "";
+songstatus2 = "";
 
 score_leftwrist = "";
+score_rightwrist = "";
 
 function setup(){
     canvas = createCanvas(600,500);
@@ -32,7 +34,9 @@ function gotPoses(results){
       console.log(results);
        
       score_leftwrist = results[0].pose.keypoints[9].score;
+      score_rightwrist = results[0].pose.keypoints[10].score;
       console.log("Score_leftwrist = "+ score_leftwrist);
+      console.log("Score_rightwrist = "+ score_rightwrist);
 
       leftwristX = results[0].pose.leftWrist.x;
       leftwristY = results[0].pose.leftWrist.y;
@@ -52,8 +56,10 @@ function preload(){
 
 function draw(){
     image(video,0,0,600,500);
-    songplay = song1.isPlaying();
-    console.log("Song status = "+ songplay);
+    songstatus = song1.isPlaying();
+    console.log("Song status1 = "+ songstatus);
+    songstatus2 = song2.isPlaying();
+    console.log("Song status2 = "+ songstatus2);
     fill("FF000");
     stroke("FF000")
    
@@ -61,12 +67,24 @@ function draw(){
         circle(leftwristX,leftwristY,20);
         song2.stop();
 
-     if (songplay = false) {
+     if (songstatus = false) {
             song1.play();
             document.getElementById("play").innerHTML = "song1";
         }
     }
 }
+// code for new class
+
+ if (score_rightwrist > 0.2) {
+     circle(rightwristX,rightwristY,20);
+     song1.stop();
+
+     if(songstatus2 = false){
+         song2.play();
+         document.getElementById("play").innerHTML = "song2";
+     }
+ }
+
 
 function playthesong(){
     song1.play();
